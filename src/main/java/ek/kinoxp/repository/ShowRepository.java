@@ -9,7 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Long> {
-    List<Show> findByStartAtAfterOrderByStartAtAsc(LocalDateTime now); //Find alle shows hvor startAt er efter en bestemt tid, og sorter stigende efter startAt
-
+    List<Show> findByStartAtAfterOrderByStartAtAsc(LocalDateTime now);
+    //findByStartAtAfterOrderByStartAtAsc = Find alle shows hvor startAt er efter en bestemt tid, og sorter stigende efter startAt
+    //future shows, sorteret stigende
 }
+
 
