@@ -1,20 +1,27 @@
--- Indsæt film
-INSERT INTO movie (movie_id, title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES (1, 'Inception', 'Sci-Fi', 13, 148, 2010, 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'A thief who enters dreams to steal secrets.', 'English');
+-- Movies (ID autogenereres)
+INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
+VALUES ('Inception', 'Sci-Fi', 13, 148, 2010, 'Leonardo DiCaprio, Joseph Gordon-Levitt',
+        'A thief who enters dreams to steal secrets.', 'English');
 
-INSERT INTO movie (movie_id, title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES (2, 'The Dark Knight', 'Action', 12, 152, 2008, 'Christian Bale, Heath Ledger', 'Batman faces the Joker in Gotham City.', 'English');
+INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
+VALUES ('The Dark Knight', 'Action', 12, 152, 2008, 'Christian Bale, Heath Ledger',
+        'Batman faces the Joker in Gotham City.', 'English');
 
--- Indsæt teater
-INSERT INTO theater (theater_id, name, row_count, seat_count)
-VALUES (1, 'Sal 1', 10, 100);
+-- Theaters (ID autogenereres)
+INSERT INTO theater (name, row_count, seat_count) VALUES ('Sal 1', 10, 100);
+INSERT INTO theater (name, row_count, seat_count) VALUES ('Sal 2', 12, 120);
 
-INSERT INTO theater (theater_id, name, row_count, seat_count)
-VALUES (2, 'Sal 2', 12, 120);
+-- Showings – slå FK’er op via SELECT, så vi ikke gætter på id-værdier
+INSERT INTO showing (movie_id, theater_id, start_at)
+VALUES (
+           (SELECT movie_id FROM movie   WHERE title = 'Inception'),
+           (SELECT theater_id FROM theater WHERE name  = 'Sal 1'),
+           TIMESTAMP '2025-10-05 19:00:00'
+       );
 
--- Indsæt shows (forestilling)
-INSERT INTO showing (show_id, movie_id, theater_id, start_at)
-VALUES (1, 1, 1, TIMESTAMP '2025-10-05 19:00:00');
-
-INSERT INTO showing (show_id, movie_id, theater_id, start_at)
-VALUES (2, 2, 2, TIMESTAMP '2025-10-06 20:30:00');
+INSERT INTO showing (movie_id, theater_id, start_at)
+VALUES (
+           (SELECT movie_id FROM movie   WHERE title = 'The Dark Knight'),
+           (SELECT theater_id FROM theater WHERE name  = 'Sal 2'),
+           TIMESTAMP '2025-10-06 20:30:00'
+       );
