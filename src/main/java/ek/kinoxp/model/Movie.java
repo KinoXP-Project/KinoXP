@@ -1,6 +1,16 @@
 package ek.kinoxp.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Movie {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
     private Long movieId;
     private String title;
     private String category;
@@ -11,8 +21,11 @@ public class Movie {
     private String description;
     private String language;
 
-public Movie() {}
+    // One movie = many shows
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    private List<Show> shows = new ArrayList<>();
 
+public Movie() {}
     public Movie(Long movieId, String title, String category, int ageLimit, int durationMin,
                  int releaseYear, String actors, String description, String language) {
         this.movieId = movieId;
