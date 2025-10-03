@@ -18,6 +18,7 @@ public class ProgramController {
 
     public ProgramController(ShowService showService) {
         this.showService = showService;
+        return "/index"; // viser index-html via. Thymeleaf
     }
 
     @GetMapping("/upcoming")
