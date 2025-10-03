@@ -1,10 +1,12 @@
-package Model;
+package ek.kinoxp.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "Program")
+@Table(name = "programs")
 public class Program
 {
     @Id
@@ -19,21 +21,27 @@ public class Program
     @JoinColumn(name = "theater_id") // fremmednøgle i shows-tabellen
     private Theater theater;
 
+    @OneToMany(mappedBy = "program")
+    private List<Show> shows = new ArrayList<>(); //en arrayliste, da der er FLERE shows til ét program
+
     private LocalDate startDate;
+
     private LocalDate endDate;
 
     public Program(){}
 
-    public Program(int program_id, Movie movie, Theater theater, LocalDate startDate, LocalDate endDate)
+    public Program(int program_id, Movie movie, Theater theater, List<Show> shows, LocalDate startDate, LocalDate endDate)
     {
         this.program_id = program_id;
         this.movie = movie;
         this.theater = theater;
+        this.shows = shows;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
     //Getters og setters
+
     public int getProgram_id() {return program_id;}
     public void setProgram_id(int program_id) {this.program_id = program_id;}
 
@@ -42,6 +50,9 @@ public class Program
 
     public Theater getTheater() {return theater;}
     public void setTheater(Theater theater) {this.theater = theater;}
+
+    public List<Show> getShows() {return shows;}
+    public void setShows(List<Show> shows) {this.shows = shows;}
 
     public LocalDate getStartDate() {return startDate;}
     public void setStartDate(LocalDate startDate) {this.startDate = startDate;}

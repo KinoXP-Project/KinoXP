@@ -1,6 +1,6 @@
-package Repository;
+package ek.kinoxp.Repository;
 
-import Model.Show;
+import ek.kinoxp.Model.Show;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

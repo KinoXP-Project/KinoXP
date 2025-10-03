@@ -1,4 +1,4 @@
-package Model;
+package ek.kinoxp.Model;
 
 import jakarta.persistence.*;
 

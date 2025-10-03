@@ -1,7 +1,7 @@
-package Controller;
+package ek.kinoxp.Controller;
 
-import Model.Movie;
-import Repository.MovieRepository;
+import ek.kinoxp.Model.Movie;
+import ek.kinoxp.Repository.MovieRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

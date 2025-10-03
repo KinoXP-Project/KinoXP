@@ -1,10 +1,10 @@
-package Model;
+package ek.kinoxp.Model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Show")
+@Table(name = "shows")
 public class Show
 {
     @Id
@@ -19,15 +19,19 @@ public class Show
     @JoinColumn(name = "theater_id") //fremmednøgle i shows-tabellen
     private Theater theater;
 
-    private int program_id;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "program_id")
+    private Program program;
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     public Show(){}
 
-    public Show(Movie movie, Theater theater, LocalDateTime startTime) {
+    public Show(Movie movie, Theater theater, Program program, LocalDateTime startTime) {
         this.movie = movie;
         this.theater = theater;
+        this.program = program;
         this.startTime = startTime;
         calculateEndTime();
     }
@@ -43,8 +47,8 @@ public class Show
     public Theater getTheater() {return theater;}
     public void setTheater(Theater theater) {this.theater = theater;}
 
-    public int getProgram_id() {return program_id;}
-    public void setProgram_id(int program_id) {this.program_id = program_id;}
+    public Program getProgram() {return program;}
+    public void setProgram(Program program) {this.program = program;}
 
     public LocalDateTime getStartTime() {return startTime;}
     public void setStartTime(LocalDateTime startTime) {this.startTime = startTime;}
@@ -54,7 +58,6 @@ public class Show
 
 
     // Metode til at udregne filmens runtime, så vi kan udregne cirka sluttid
-
     public void calculateEndTime() {
         if (movie != null && startTime != null) {
             this.endTime = startTime.plusMinutes(movie.getRun_time());

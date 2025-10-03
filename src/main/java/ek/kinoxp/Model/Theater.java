@@ -1,9 +1,9 @@
-package Model;
+package ek.kinoxp.Model;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Theater")
+@Table(name = "theaters")
 public class Theater
 {
     @Id
