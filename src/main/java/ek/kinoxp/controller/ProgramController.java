@@ -4,21 +4,18 @@ package ek.kinoxp.controller;
 import ek.kinoxp.dto.MovieDetailDTO;
 import ek.kinoxp.dto.UpcomingShowingDTO;
 import ek.kinoxp.service.ShowService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/program") //
+@CrossOrigin //(@CrossOrigin origins = "${cors.allowed.orgins:http://localhost:5501}")
+@RequestMapping("api/program") //
 public class ProgramController {
 
     private final ShowService showService;
 
     public ProgramController(ShowService showService) {
         this.showService = showService;
-        return "/index"; // viser index-html via. Thymeleaf
     }
 
     @GetMapping("/upcoming")
