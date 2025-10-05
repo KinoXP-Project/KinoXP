@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/program")
-@CrossOrigin
+@CrossOrigin(origins = "http://127.0.0.1:5500") // eller det portnummer du åbner index.html fra
 
 public class ProgramController
 {
