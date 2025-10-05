@@ -1,49 +1,82 @@
--- Movies (ID autogenereres)
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES ('Inception', 'Sci-Fi', 13, 148, 2010, 'Leonardo DiCaprio, Joseph Gordon-Levitt',
-        'A thief who enters dreams to steal secrets.', 'English');
+-- ==== NULSTIL (kør i korrekt rækkefølge pga. FK) ===========================
+DELETE FROM showing;
+DELETE FROM movie;
+DELETE FROM theater;
 
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES ('The Dark Knight', 'Action', 12, 152, 2008, 'Christian Bale, Heath Ledger',
-        'Batman faces the Joker in Gotham City.', 'English');
+-- Nulstil identity/auto-increment
+ALTER TABLE theater ALTER COLUMN theater_id RESTART WITH 1;
+ALTER TABLE movie   ALTER COLUMN movie_id   RESTART WITH 1;
+ALTER TABLE showing ALTER COLUMN show_id    RESTART WITH 1;
 
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES ('Toy Story', 'Animation', 7, 81, 1995, 'Tom Hanks, Tim Allen',
-        'Toys come to life when their owner isn’t looking.', 'English');
+-- ==== THEATERS ==============================================================
+INSERT INTO theater (name, row_count, seat_count) VALUES
+  ('Sal 1', 10, 100),
+  ('Sal 2', 12, 120);
 
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language)
-VALUES ('Get Out', 'Horror', 15, 104, 2017, 'Daniel Kaluuya, Allison Williams',
-        'A young man uncovers disturbing secrets when meeting his girlfriend’s family.', 'English');
+-- ==== MOVIES ================================================================
+-- Tilpas/udvid frit. image_url er valgfri – slet kolonnen her hvis din model ikke har den.
+INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language, image_url) VALUES
+('Inception', 'Sci-Fi', 13, 148, 2010, 'Leonardo DiCaprio, Joseph Gordon-Levitt',
+ 'A thief who enters people’s dreams to steal secrets.', 'English',
+ 'https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg'),
 
--- Theaters (ID autogenereres)
-INSERT INTO theater (name, row_count, seat_count) VALUES ('Sal 1', 10, 100);
-INSERT INTO theater (name, row_count, seat_count) VALUES ('Sal 2', 12, 120);
+('The Dark Knight', 'Action', 12, 152, 2008, 'Christian Bale, Heath Ledger',
+ 'Batman faces the Joker in Gotham City.', 'English',
+ 'https://upload.wikimedia.org/wikipedia/en/8/8a/Dark_Knight.jpg'),
 
--- Showings – slå FK’er op via SELECT, så vi ikke gætter på id-værdier
+('Interstellar', 'Sci-Fi', 10, 169, 2014, 'Matthew McConaughey, Anne Hathaway',
+ 'Explorers travel through a wormhole to find a new home for humanity.', 'English',
+ 'https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg'),
+
+('Parasite', 'Thriller', 15, 132, 2019, 'Song Kang-ho, Lee Sun-kyun',
+ 'A poor family infiltrates a wealthy household with unexpected consequences.', 'Korean',
+ 'https://upload.wikimedia.org/wikipedia/en/5/53/Parasite_%282019_film%29.png'),
+
+('Toy Story', 'Animation', 7, 81, 1995, 'Tom Hanks, Tim Allen',
+ 'Toys come to life when their owner isn’t looking.', 'English',
+ 'https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg');
+
+-- Eksempel på en helt ny film du har oprettet i H2 manuelt:
+INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language, image_url) VALUES
+('Inception 2', 'Sci-Fi', 13, 150, 2026, 'Leonardo DiCaprio, Elliot Page',
+ 'Dream heists return with higher stakes.', 'English',
+ NULL);
+
+-- ==== SHOWINGS (brug JOIN i INSERT … SELECT) ================================
+-- VIGTIGT: Vælg fremtidige tidspunkter, ellers filtreres de fra i /upcoming.
+
+-- Inception i Sal 1
 INSERT INTO showing (movie_id, theater_id, start_at)
-VALUES (
-           (SELECT movie_id FROM movie   WHERE title = 'Inception'),
-           (SELECT theater_id FROM theater WHERE name  = 'Sal 1'),
-           TIMESTAMP '2025-10-05 19:00:00'
-       );
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-12 19:00:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 1'
+WHERE LOWER(m.title) = LOWER('Inception');
 
+-- The Dark Knight i Sal 2
 INSERT INTO showing (movie_id, theater_id, start_at)
-VALUES (
-           (SELECT movie_id FROM movie   WHERE title = 'The Dark Knight'),
-           (SELECT theater_id FROM theater WHERE name  = 'Sal 2'),
-           TIMESTAMP '2025-10-06 20:30:00'
-       );
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-12 21:00:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 2'
+WHERE LOWER(m.title) = LOWER('The Dark Knight');
 
+-- Interstellar i Sal 1
 INSERT INTO showing (movie_id, theater_id, start_at)
-VALUES (
-         (SELECT movie_id FROM movie WHERE title = 'Toy Story'),
-         (SELECT theater_id FROM theater WHERE name = 'Sal 1'),
-         TIMESTAMP '2025-10-07 18:00:00'
-       );
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-13 18:30:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 1'
+WHERE LOWER(m.title) = LOWER('Interstellar');
 
+-- Parasite i Sal 2
 INSERT INTO showing (movie_id, theater_id, start_at)
-VALUES (
-         (SELECT movie_id FROM movie WHERE title = 'Get Out'),
-         (SELECT theater_id FROM theater WHERE name = 'Sal 2'),
-         TIMESTAMP '2025-10-07 22:00:00'
-        );
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-13 20:45:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 2'
+WHERE LOWER(m.title) = LOWER('Parasite');
+
+-- Toy Story i Sal 1 (tidlig)
+INSERT INTO showing (movie_id, theater_id, start_at)
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-14 16:00:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 1'
+WHERE LOWER(m.title) = LOWER('Toy Story');
+
+-- Din nye film 'Inception 2' i Sal 1
+INSERT INTO showing (movie_id, theater_id, start_at)
+SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-15 19:30:00'
+FROM movie m JOIN theater t ON t.name = 'Sal 1'
+WHERE LOWER(m.title) = LOWER('Inception 2');

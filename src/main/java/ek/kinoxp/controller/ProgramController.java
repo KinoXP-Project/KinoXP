@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@CrossOrigin //(@CrossOrigin origins = "${cors.allowed.orgins:http://localhost:5501}")
-@RequestMapping("api/program") //
+@CrossOrigin( origins = "${cors.allowed.orgins:http://localhost:5500")
+@RequestMapping("api/program")
 public class ProgramController {
 
     private final ShowService showService;

@@ -22,13 +22,18 @@ public class Movie {
     private String description;
     private String language;
 
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+
     // One movie = many shows
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private List<Show> shows = new ArrayList<>();
 
 public Movie() {}
     public Movie(Long movieId, String title, String category, int ageLimit, int durationMin,
-                 int releaseYear, String actors, String description, String language) {
+                 int releaseYear, String actors, String description, String language, String imageUrl) {
         this.movieId = movieId;
         this.title = title;
         this.category = category;
@@ -38,6 +43,8 @@ public Movie() {}
         this.actors = actors;
         this.description = description;
         this.language = language;
+
+
     }
 
     public Long getMovieId() {
@@ -110,6 +117,7 @@ public Movie() {}
 
     public void setLanguage(String language) {
         this.language = language;
+
     }
     }
 
