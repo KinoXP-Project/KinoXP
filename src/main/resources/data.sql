@@ -10,37 +10,28 @@ ALTER TABLE showing ALTER COLUMN show_id    RESTART WITH 1;
 
 -- ==== THEATERS ==============================================================
 INSERT INTO theater (name, row_count, seat_count) VALUES
-  ('Sal 1', 10, 100),
-  ('Sal 2', 12, 120);
+ ('Sal 1', 10, 100),
+ ('Sal 2', 12, 120);
 
 -- ==== MOVIES ================================================================
--- Tilpas/udvid frit. image_url er valgfri – slet kolonnen her hvis din model ikke har den.
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language, image_url) VALUES
+INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language) VALUES
 ('Inception', 'Sci-Fi', 13, 148, 2010, 'Leonardo DiCaprio, Joseph Gordon-Levitt',
- 'A thief who enters people’s dreams to steal secrets.', 'English',
- 'https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg'),
+ 'A thief who enters people’s dreams to steal secrets.', 'English'),
 
 ('The Dark Knight', 'Action', 12, 152, 2008, 'Christian Bale, Heath Ledger',
- 'Batman faces the Joker in Gotham City.', 'English',
- 'https://upload.wikimedia.org/wikipedia/en/8/8a/Dark_Knight.jpg'),
+'Batman faces the Joker in Gotham City.', 'English'),
 
-('Interstellar', 'Sci-Fi', 10, 169, 2014, 'Matthew McConaughey, Anne Hathaway',
- 'Explorers travel through a wormhole to find a new home for humanity.', 'English',
- 'https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg'),
+ ('Interstellar', 'Sci-Fi', 10, 169, 2014, 'Matthew McConaughey, Anne Hathaway',
+'Explorers travel through a wormhole to find a new home for humanity.', 'English'),
 
 ('Parasite', 'Thriller', 15, 132, 2019, 'Song Kang-ho, Lee Sun-kyun',
- 'A poor family infiltrates a wealthy household with unexpected consequences.', 'Korean',
- 'https://upload.wikimedia.org/wikipedia/en/5/53/Parasite_%282019_film%29.png'),
+'A poor family infiltrates a wealthy household with unexpected consequences.', 'Korean'),
 
 ('Toy Story', 'Animation', 7, 81, 1995, 'Tom Hanks, Tim Allen',
- 'Toys come to life when their owner isn’t looking.', 'English',
- 'https://upload.wikimedia.org/wikipedia/en/1/13/Toy_Story.jpg');
+ 'Toys come to life when their owner isn’t looking.', 'English'),
 
--- Eksempel på en helt ny film du har oprettet i H2 manuelt:
-INSERT INTO movie (title, category, age_limit, duration_min, release_year, actors, description, language, image_url) VALUES
 ('Inception 2', 'Sci-Fi', 13, 150, 2026, 'Leonardo DiCaprio, Elliot Page',
- 'Dream heists return with higher stakes.', 'English',
- NULL);
+ 'Dream heists return with higher stakes.', 'English');
 
 -- ==== SHOWINGS (brug JOIN i INSERT … SELECT) ================================
 -- VIGTIGT: Vælg fremtidige tidspunkter, ellers filtreres de fra i /upcoming.
@@ -69,7 +60,7 @@ SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-13 20:45:00'
 FROM movie m JOIN theater t ON t.name = 'Sal 2'
 WHERE LOWER(m.title) = LOWER('Parasite');
 
--- Toy Story i Sal 1 (tidlig)
+-- Toy Story i Sal 1
 INSERT INTO showing (movie_id, theater_id, start_at)
 SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-14 16:00:00'
 FROM movie m JOIN theater t ON t.name = 'Sal 1'

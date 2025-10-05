@@ -22,7 +22,7 @@ class ShowServiceTest {
     private MovieRepository movieRepository;
     private ShowService showService;
 
-    @BeforeEach
+    @BeforeEach //annotated method should be executed before each @Test
     void setUp() {
         this.showRepository = mock(ShowRepository.class);   // Fake repo
         this.movieRepository = mock(MovieRepository.class);  // Fake repo

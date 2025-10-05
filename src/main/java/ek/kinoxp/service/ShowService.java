@@ -20,6 +20,7 @@ public class ShowService {
 public ShowService(ShowRepository showRepository, MovieRepository movieRepository) {
     this.showRepository = showRepository;
     this.movieRepository = movieRepository;
+
 }public List<UpcomingShowingDTO> getUpcoming() {
         // 1. Hent alle shows, der starter efter nu
         List<Show> shows = showRepository.findByStartAtAfterOrderByStartAtAsc(LocalDateTime.now());
