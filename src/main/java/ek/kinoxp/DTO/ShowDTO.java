@@ -4,7 +4,7 @@ import ek.kinoxp.Model.Show;
 
 import java.time.LocalDateTime;
 
-public record ShowDTO(int id,
+public record ShowDTO(Long id,
                       String movieTitle,
                       String category,
                       Integer ageLimit,
@@ -18,7 +18,7 @@ public record ShowDTO(int id,
                 s.getShow_id(),
                 s.getProgram().getMovie().getTitle(),
                 s.getProgram().getMovie().getCategory(),
-                s.getProgram().getMovie().getAge_limit(),
+                s.getProgram().getMovie().getAgeLimit(),
                 s.getProgram().getTheater().getName(),
                 s.getStartTime(),
                 s.getEndTime()

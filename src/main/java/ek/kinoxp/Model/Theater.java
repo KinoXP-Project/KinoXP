@@ -8,7 +8,7 @@ public class Theater
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int theater_id;
+    private Long theater_id;
 
     private int row_count;
     private int seat_count;
@@ -16,7 +16,7 @@ public class Theater
 
     public Theater(){}
 
-    public Theater(int theater_id, int row_count, int seat_count, String name)
+    public Theater(Long theater_id, int row_count, int seat_count, String name)
     {
         this.theater_id = theater_id;
         this.row_count = row_count;
@@ -25,8 +25,8 @@ public class Theater
     }
 
     //Getters og setters
-    public int getTheater_id() {return theater_id;}
-    public void setTheater_id(int theater_id) {this.theater_id = theater_id;}
+    public Long getTheater_id() {return theater_id;}
+    public void setTheater_id(Long theater_id) {this.theater_id = theater_id;}
 
     public int getRow_count() {return row_count;}
     public void setRow_count(int row_count) {this.row_count = row_count;}

@@ -9,7 +9,7 @@ public class Show
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int show_id;
+    private Long show_id;
 
     @ManyToOne(optional = false) //Én film → mange shows
     @JoinColumn(name = "movie_id") // fremmednøgle i shows-tabellen
@@ -33,13 +33,13 @@ public class Show
         this.theater = theater;
         this.program = program;
         this.startTime = startTime;
-        calculateEndTime();
+        //calculateEndTime();
     }
 
     //Getters og setters
 
-    public void setShow_id(int show_id) {this.show_id = show_id;}
-    public int getShow_id() {return show_id;}
+    public void setShow_id(Long show_id) {this.show_id = show_id;}
+    public Long getShow_id() {return show_id;}
 
     public Movie getMovie() {return movie;}
     public void setMovie(Movie movie) {this.movie = movie;}
@@ -57,11 +57,10 @@ public class Show
     public void setEndTime(LocalDateTime endTime) {this.endTime = endTime;}
 
 
-    // Metode til at udregne filmens runtime, så vi kan udregne cirka sluttid
+    /*Metode til at udregne filmens runtime, så vi kan udregne cirka sluttid
     public void calculateEndTime() {
         if (movie != null && startTime != null) {
             this.endTime = startTime.plusMinutes(movie.getRun_time());
         }
-    }
-
+    }*/
 }

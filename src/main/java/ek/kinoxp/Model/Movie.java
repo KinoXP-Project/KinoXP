@@ -1,4 +1,4 @@
-package ek.kinoxp.model;
+package ek.kinoxp.Model;
 
 import jakarta.persistence.*;
 
@@ -6,13 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "movies")
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id")
     private Long movieId;
+
+    @Column(nullable = false) //kan ikke være tom i DB
     private String title;
     private String category;
     private int ageLimit;
@@ -21,10 +23,6 @@ public class Movie {
     private String actors;
     private String description;
     private String language;
-
-
-//    @Column(name = "image_url")
-//    private String imageUrl;
 
 
     // One movie = many shows
@@ -123,5 +121,5 @@ public class Movie {
         this.language = language;
 
     }
-    }
+}
 

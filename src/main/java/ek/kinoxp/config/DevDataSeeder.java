@@ -44,9 +44,9 @@ public class DevDataSeeder implements CommandLineRunner {
             Movie dune = new Movie();
             dune.setTitle("Dune: Part Two");
             dune.setCategory("Sci-Fi");
-            dune.setAge_limit(12);
+            dune.setAgeLimit(12);
             dune.setDurationMin(166);
-            dune.setRelease_year(2024);
+            dune.setReleaseYear(2024);
             dune.setLanguage("English");
             dune = movieRepo.save(dune);
 

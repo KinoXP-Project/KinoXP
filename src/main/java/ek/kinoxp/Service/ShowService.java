@@ -33,12 +33,12 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
             // 4. Opret en DTO ud fra show + relationer (Movie + Theater)
             UpcomingShowingDTO dto = new UpcomingShowingDTO(
                     s.getShow_id(),
-                    s.getMovie().getMovie_id(),
+                    s.getMovie().getMovieId(),
                     s.getMovie().getTitle(),
                     s.getMovie().getCategory(),
-                    s.getMovie().getAge_limit(),
+                    s.getMovie().getAgeLimit(),
                     s.getTheater().getName(),
-                    s.getStart_at(),
+                    s.getStartTime(),
                     s.getMovie().getActors()
             );
 
@@ -51,13 +51,13 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
     }
 
 public MovieDetailDTO getMovieDetails(Long movieId) {
-    var m = movieRepository.findById(movie_id).orElseThrow(); //throw =hvis film ingen id har smid exception
+    var m = movieRepository.findById(movieId).orElseThrow(); //throw =hvis film ingen id har smid exception
 // Movie m = movieRepository.findById(movieId).orElseThrow();
     return new MovieDetailDTO(
-            m.getMovie_id(),
+            m.getMovieId(),
             m.getTitle(),
             m.getCategory(),
-            m.getAge_limit(),
+            m.getAgeLimit(),
             m.getDurationMin(),
             m.getReleaseYear(),
             m.getActors(),
