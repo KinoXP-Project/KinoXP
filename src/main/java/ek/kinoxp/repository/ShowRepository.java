@@ -1,6 +1,7 @@
 package ek.kinoxp.repository;
 
 import ek.kinoxp.model.Show;
+import ek.kinoxp.model.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,9 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
     List<Show> findByStartAtAfterOrderByStartAtAsc(LocalDateTime now);
     //findByStartAtAfterOrderByStartAtAsc = Find alle shows hvor startAt er efter en bestemt tid, og sorter stigende efter startAt
     //future shows, sorteret stigende
+
+
+boolean existsByTheaterAndStartAtBetween(Theater theater, LocalDateTime from, LocalDateTime to);
 }
 
 
