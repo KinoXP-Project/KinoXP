@@ -57,4 +57,13 @@ public class AuthControllerIntegrationTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.error").value("Invalid username or password"));
     }
+
+    @Test
+    public void testLogout_success() throws Exception {
+        mockMvc.perform(post("/api/logout")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Logout successful"));
+    }
+
 }

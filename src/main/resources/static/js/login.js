@@ -20,3 +20,15 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         alert('Login failed');
     }
 })
+
+document.getElementById('logoutButton').addEventListener('click', async function () {
+    // Giv besked til serveren
+    await fetch('http://localhost:8080/api/logout', { method: 'POST' });
+
+    // Slet det gemte brugernavn
+    localStorage.removeItem('username');
+
+    alert('Logout successful');
+    window.location.href = 'login.html';
+});
+
