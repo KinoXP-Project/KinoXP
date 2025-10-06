@@ -9,4 +9,5 @@ import java.util.List;
 public interface ShowRepository extends JpaRepository<Show, Integer>
 {
     List<Show> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
+    List<Show> findByStartTimeAfterOrderByStartTimeAsc(LocalDateTime t);
 }

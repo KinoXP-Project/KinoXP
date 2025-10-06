@@ -1,11 +1,11 @@
 package ek.kinoxp.Service;
 
-import ek.kinoxp.dto.UpcomingShowingDTO;
-import ek.kinoxp.model.Movie;
-import ek.kinoxp.model.Show;
-import ek.kinoxp.model.Theater;
-import ek.kinoxp.repository.MovieRepository;
-import ek.kinoxp.repository.ShowRepository;
+import ek.kinoxp.DTO.UpcomingShowingDTO;
+import ek.kinoxp.Model.Movie;
+import ek.kinoxp.Model.Show;
+import ek.kinoxp.Model.Theater;
+import ek.kinoxp.Repository.MovieRepository;
+import ek.kinoxp.Repository.ShowRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,10 @@
 package ek.kinoxp.Controller;
 
+import ek.kinoxp.DTO.MovieDetailDTO;
 import ek.kinoxp.DTO.ShowDTO;
+import ek.kinoxp.DTO.UpcomingShowingDTO;
 import ek.kinoxp.Service.ProgramService;
+import ek.kinoxp.Service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,20 +19,19 @@ import java.util.List;
 
 public class ProgramController
 {
-    @Autowired
-    private ProgramService proService;
+    private final ProgramService proService;
+    private final ShowService showService;
 
-    public ProgramController(ProgramService proService){
+    public ProgramController(ProgramService proService, ShowService showService){
         this.proService = proService;
+        this.showService = showService;
     }
 
 
     @GetMapping
     public List<ShowDTO> getProgram(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, //den fortæller Spring, at datoen i URL’en skal tolkes som ISO format (yyyy-MM-dd)
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
-    )
-    {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
         {
             LocalDate s = (start != null) ? start : LocalDate.now().withDayOfMonth(1);
             LocalDate e = (end != null) ? end : s.withDayOfMonth(s.lengthOfMonth());
@@ -42,5 +44,15 @@ public class ProgramController
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleBadRequest(IllegalArgumentException ex) { //henter message fra ServiceLaget og returnere
         return ex.getMessage();
+    }
+
+    @GetMapping("/upcoming")
+    public List<UpcomingShowingDTO> getUpcoming() {
+        return showService.getUpcoming();
+    }
+
+    @GetMapping("/movies/{id}")
+    public MovieDetailDTO getMovie(@PathVariable Long id) {
+        return showService.getMovieDetails(id);
     }
 }
