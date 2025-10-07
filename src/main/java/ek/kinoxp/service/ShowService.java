@@ -57,35 +57,39 @@ public class ShowService {
         // 6. Returner listen til controlleren (bliver sendt som JSON)
         return result;
     }
+    public ShowingResponseDTO createShowing(CreateShowingRequestDTO req) {
+        Movie movie = movieRepository.findById(req.movieId())
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found: " + req.movieId()));
+        Theater theater = theaterRepository.findById(req.theaterId())
+                .orElseThrow(() -> new IllegalArgumentException("Theater not found: " + req.theaterId()));
 
-    public ShowingResponseDTO createShowing(CreateShowingRequestDTO request) {
-        // 1) slå foreign keys op
-        Movie movie = movieRepository.findById(request.movieId())
-                .orElseThrow(() -> new IllegalArgumentException("Movie not found: " + request.movieId()));
-        Theater theater = theaterRepository.findById(request.theaterId())
-                .orElseThrow(() -> new IllegalArgumentException("Theater not found: " + request.theaterId()));
+        if (!req.startAt().isAfter(LocalDateTime.now()))
+            throw new IllegalArgumentException("Start time must be in the future");
 
-        LocalDateTime start = request.startAt();
+        var newStart = req.startAt();
+        var newEnd   = newStart.plusMinutes(movie.getDurationMin());
 
-        // 2) overlap-tjek (simpel: ingen andre shows i samme sal inden for ±3 timer)
-        boolean overlaps = showRepository.existsByTheaterAndStartAtBetween(
-                theater,
-                start.minusHours(3),
-                start.plusHours(3)
-        );
-        if (overlaps) {
-            throw new IllegalStateException("Time slot unavailable in this theater.");
+        var dayStart = newStart.toLocalDate().atStartOfDay();
+        var dayEnd   = newStart.toLocalDate().atTime(23,59,59);
+
+        var sameDay = showRepository.findByTheater_TheaterIdAndStartAtBetween(
+                theater.getTheaterId(), dayStart, dayEnd);
+
+        for (Show s : sameDay) {
+            var sStart = s.getStartAt();
+            var sEnd   = sStart.plusMinutes(s.getMovie().getDurationMin());
+            if (newStart.isBefore(sEnd) && newEnd.isAfter(sStart)) {
+                throw new IllegalStateException("Time slot unavailable in this theater");
+            }
         }
 
-        // 3) opret og gem
-        Show s = new Show();
-        s.setMovie(movie);
-        s.setTheater(theater);
-        s.setStartAt(start);
+        Show show = new Show();
+        show.setMovie(movie);
+        show.setTheater(theater);
+        show.setStartAt(newStart);
 
-        Show saved = showRepository.save(s);
+        Show saved = showRepository.save(show);
 
-        // 4) svar-DTO
         return new ShowingResponseDTO(
                 saved.getShowId(),
                 movie.getMovieId(),
@@ -95,6 +99,45 @@ public class ShowService {
                 saved.getStartAt()
         );
     }
+
+//
+//    public ShowingResponseDTO createShowing(CreateShowingRequestDTO request) {
+//        // 1) slå foreign keys op
+//        Movie movie = movieRepository.findById(request.movieId())
+//                .orElseThrow(() -> new IllegalArgumentException("Movie not found: " + request.movieId()));
+//        Theater theater = theaterRepository.findById(request.theaterId())
+//                .orElseThrow(() -> new IllegalArgumentException("Theater not found: " + request.theaterId()));
+//
+//        LocalDateTime start = request.startAt();
+//
+//        // 2) overlap-tjek (simpel: ingen andre shows i samme sal inden for ±3 timer)
+//        boolean overlaps = showRepository.existsByTheaterAndStartAtBetween(
+//                theater,
+//                start.minusHours(3),
+//                start.plusHours(3)
+//        );
+//        if (overlaps) {
+//            throw new IllegalStateException("Time slot unavailable in this theater.");
+//        }
+//
+//        // 3) opret og gem
+//        Show s = new Show();
+//        s.setMovie(movie);
+//        s.setTheater(theater);
+//        s.setStartAt(start);
+//
+//        Show saved = showRepository.save(s);
+//
+//        // 4) svar-DTO
+//        return new ShowingResponseDTO(
+//                saved.getShowId(),
+//                movie.getMovieId(),
+//                movie.getTitle(),
+//                theater.getTheaterId(),
+//                theater.getName(),
+//                saved.getStartAt()
+//        );
+//    }
 
 
 public MovieDetailDTO getMovieDetails(Long movieId) {

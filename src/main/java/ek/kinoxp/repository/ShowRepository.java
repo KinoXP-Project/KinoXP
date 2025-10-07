@@ -15,7 +15,12 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
     //future shows, sorteret stigende
 
 
+
+
 boolean existsByTheaterAndStartAtBetween(Theater theater, LocalDateTime from, LocalDateTime to);
+    List<Show> findByTheater_TheaterIdAndStartAtBetween(Long theaterId, LocalDateTime from, LocalDateTime to);
+
 }
+
 
 
