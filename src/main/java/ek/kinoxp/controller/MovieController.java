@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "${cors.allowed.origins:http://localhost:5500}")
+@CrossOrigin(origins = {"http://localhost:5500","http://127.0.0.1:5500"})
 @RequestMapping("/api/movies")
 public class MovieController {
 

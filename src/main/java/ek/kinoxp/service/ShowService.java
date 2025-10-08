@@ -17,9 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class ShowService {
@@ -27,7 +25,9 @@ public class ShowService {
     private final MovieRepository movieRepository;
     private final TheaterRepository theaterRepository;
 
-    public ShowService(ShowRepository showRepository, MovieRepository movieRepository, TheaterRepository theaterRepository) {
+    public ShowService(ShowRepository showRepository,
+                       MovieRepository movieRepository,
+                       TheaterRepository theaterRepository) {
         this.showRepository = showRepository;
         this.movieRepository = movieRepository;
         this.theaterRepository = theaterRepository;
@@ -67,29 +67,28 @@ public class ShowService {
             throw new ResponseStatusException(BAD_REQUEST, "Start time must be in the future");
         }
 
-        // Hurtigt guard: afvis hvis der ligger noget ca. omkring det nye tidspunkt
+        // Grov guard: “noget” indenfor +/- 3 timer
         if (showRepository.existsByTheaterAndStartAtBetween(theater, newStart.minusHours(3), newStart.plusHours(3))) {
             throw new ResponseStatusException(CONFLICT, "Time slot unavailable in this theater.");
         }
 
-        // Præcist overlap-tjek på samme dag ud fra varighed
-        LocalDateTime newEnd = newStart.plusMinutes(movie.getDurationMin());
+        // Præcist overlap (samme dag) baseret på varighed
+        LocalDateTime newEnd   = newStart.plusMinutes(movie.getDurationMin());
         LocalDateTime dayStart = newStart.toLocalDate().atStartOfDay();
-        LocalDateTime dayEnd = newStart.toLocalDate().atTime(23, 59, 59);
+        LocalDateTime dayEnd   = newStart.toLocalDate().atTime(23, 59, 59);
 
         List<Show> sameDay = showRepository.findByTheater_TheaterIdAndStartAtBetween(
                 theater.getTheaterId(), dayStart, dayEnd);
 
         for (Show s : sameDay) {
             LocalDateTime sStart = s.getStartAt();
-            LocalDateTime sEnd = sStart.plusMinutes(s.getMovie().getDurationMin());
+            LocalDateTime sEnd   = sStart.plusMinutes(s.getMovie().getDurationMin());
             boolean overlaps = newStart.isBefore(sEnd) && newEnd.isAfter(sStart);
             if (overlaps) {
                 throw new ResponseStatusException(CONFLICT, "Time slot overlaps with another show.");
             }
         }
 
-        // Opret og gem
         Show show = new Show();
         show.setMovie(movie);
         show.setTheater(theater);
@@ -108,7 +107,8 @@ public class ShowService {
     }
 
     public MovieDetailDTO getMovieDetails(Long movieId) {
-        Movie m = movieRepository.findById(movieId).orElseThrow();
+        var m = movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Movie not found: " + movieId));
         return new MovieDetailDTO(
                 m.getMovieId(),
                 m.getTitle(),

@@ -13,6 +13,6 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
     List<Show> findByStartAtAfterOrderByStartAtAsc(LocalDateTime now);
 
     boolean existsByTheaterAndStartAtBetween(Theater theater, LocalDateTime from, LocalDateTime to);
-
     List<Show> findByTheater_TheaterIdAndStartAtBetween(Long theaterId, LocalDateTime from, LocalDateTime to);
+
 }
