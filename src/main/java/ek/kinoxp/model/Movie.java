@@ -26,12 +26,7 @@ public class Movie
     private String language;
 
 
-    // One movie = many shows
-    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    private List<Show> shows = new ArrayList<>();
-
-    public Movie(Long movieId, String title, String category, int ageLimit, int durationMin,
-                 int releaseYear, String actors, String description, String language) {} {
+    public Movie(Long movieId, String title, String category, int ageLimit, int durationMin, int releaseYear, String actors, String description, String language) {
         this.movieId = movieId;
         this.title = title;
         this.category = category;

@@ -27,31 +27,24 @@ class ProgramServiceTest {
     void setup() {
         // Mock repo
         showRepository = mock(ShowRepository.class);
-
-        // Brug den ProgramService-konstruktør DU har
-        // Hvis din ProgramService kræver flere repos, giv dem her.
         programService = new ProgramService(showRepository);
-        // eller fx: new ProgramService(showRepository, movieRepository);
     }
 
     @Test
     void getProgram_ReturnsShowsWithin3Months() {
         // Arrange - Vi opsætter testdata og “faker” repository-svaret med Mockito.
         // Opret et show indenfor 3 måneder
-        Movie movie = new Movie(1L, "Inception", "Sci-Fi", 148, 13, 2010, "English");
+        Movie movie = new Movie(1L, "Inception", "Sci-fi", 13, 180, 2013, "Leo", "Description", "English");
 
-
-        //No args eller setters, idet at vi ikke vil have at den skal tage imod parametre
-        Theater theater = new Theater(); // no-args + setters
+        Theater theater = new Theater();
         theater.setName("Theater 1");
 
-        Program program = new Program(); // no-args + setters
-        program.setMovie(movie);
-        program.setTheater(theater);
+        Program program = new Program();
 
-
-        Show show = new Show(); // no-args + setters
-        show.setProgram(program); // DTO’en læser via s.getProgram().getMovie()
+        Show show = new Show();
+        show.setProgram(program);
+        show.setMovie(movie);
+        show.setTheater(theater);
         show.setStartTime(LocalDateTime.of(2025, 10, 14, 20, 0));
         show.setEndTime  (LocalDateTime.of(2025, 10, 14, 23, 0));
 
@@ -60,7 +53,7 @@ class ProgramServiceTest {
                 any(LocalDateTime.class), any(LocalDateTime.class)))
                 .thenReturn(List.of(show));
 
-        // Act - programService.getProgram(...).
+        // Act
         // Kalder metoden der skal testes
         var result = programService.getProgram(
                 LocalDate.of(2025, 10, 1),
@@ -101,7 +94,6 @@ class ProgramServiceTest {
         assertEquals(start.atStartOfDay(), startCap.getValue());
         assertEquals(end.atTime(LocalTime.MAX), endCap.getValue());
     }
-
 
     //Negativ test, for at se om den tager imod shows over 3 måneder
     @Test
