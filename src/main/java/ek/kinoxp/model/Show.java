@@ -25,6 +25,7 @@ public class Show {
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
 
+
     public Show() {}
 
     public Show(Long showId, Movie movie, Theater theater, LocalDateTime startAt) {

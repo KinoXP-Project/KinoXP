@@ -8,6 +8,12 @@ ALTER TABLE theater ALTER COLUMN theater_id RESTART WITH 1;
 ALTER TABLE movie   ALTER COLUMN movie_id   RESTART WITH 1;
 ALTER TABLE showing ALTER COLUMN show_id    RESTART WITH 1;
 
+-- ==== KRAV TIL SHOWING (Issue #47) =========================================
+-- Tilføj status-kolonne hvis den ikke findes, sæt start_at som NOT NULL,
+-- og lav et index til hurtig overlap-søgning.
+ALTER TABLE showing ADD COLUMN IF NOT EXISTS status VARCHAR(16) DEFAULT 'ACTIVE';
+UPDATE showing SET status = 'ACTIVE' WHERE status IS NULL;
+
 -- ==== THEATERS ==============================================================
 INSERT INTO theater (name, row_count, seat_count) VALUES
  ('Sal 1', 10, 100),
@@ -71,3 +77,4 @@ INSERT INTO showing (movie_id, theater_id, start_at)
 SELECT m.movie_id, t.theater_id, TIMESTAMP '2025-10-15 19:30:00'
 FROM movie m JOIN theater t ON t.name = 'Sal 1'
 WHERE LOWER(m.title) = LOWER('Inception 2');
+
