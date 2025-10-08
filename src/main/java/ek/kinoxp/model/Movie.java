@@ -1,4 +1,4 @@
-package ek.kinoxp.Model;
+package ek.kinoxp.model;
 
 import jakarta.persistence.*;
 
@@ -14,7 +14,7 @@ public class Movie {
     @Column(name = "movie_id")
     private Long movieId;
 
-    @Column(nullable = false) //kan ikke være tom i DB
+    @Column(nullable = false) // Kan ikke være tom i DB
     private String title;
     private String category;
     private int ageLimit;
@@ -41,12 +41,9 @@ public class Movie {
         this.actors = actors;
         this.description = description;
         this.language = language;
-
-
     }
 
     public Movie() {
-
     }
 
     public Long getMovieId() {

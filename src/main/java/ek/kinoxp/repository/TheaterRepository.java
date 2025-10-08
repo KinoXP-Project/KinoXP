@@ -1,6 +1,6 @@
-package ek.kinoxp.Repository;
+package ek.kinoxp.repository;
 
-import ek.kinoxp.Model.Theater;
+import ek.kinoxp.model.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TheaterRepository extends JpaRepository<Theater, Long> {

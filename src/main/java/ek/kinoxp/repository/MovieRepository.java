@@ -1,6 +1,6 @@
-package ek.kinoxp.Repository;
+package ek.kinoxp.repository;
 
-import ek.kinoxp.Model.Movie;
+import ek.kinoxp.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {

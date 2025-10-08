@@ -1,7 +1,7 @@
-package ek.kinoxp.Controller;
+package ek.kinoxp.controller;
 
-import ek.kinoxp.Model.Movie;
-import ek.kinoxp.Repository.MovieRepository;
+import ek.kinoxp.model.Movie;
+import ek.kinoxp.repository.MovieRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,17 +12,15 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController
 {
-    private MovieRepository repo;
+    private MovieRepository movieRepository;
 
-    public MovieController(MovieRepository repo)
+    public MovieController(MovieRepository movieRepository)
     {
-        this.repo = repo;
+        this.movieRepository = movieRepository;
     }
 
-    //Get
     @GetMapping
     public List<Movie> getAllMovies(){
-        return repo.findAll();
+        return movieRepository.findAll();
     }
-
 }

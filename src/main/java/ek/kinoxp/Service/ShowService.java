@@ -1,10 +1,10 @@
-package ek.kinoxp.Service;
+package ek.kinoxp.service;
 
-import ek.kinoxp.DTO.MovieDetailDTO;
-import ek.kinoxp.DTO.UpcomingShowingDTO;
-import ek.kinoxp.Model.Show;
-import ek.kinoxp.Repository.MovieRepository;
-import ek.kinoxp.Repository.ShowRepository;
+import ek.kinoxp.dto.MovieDetailDTO;
+import ek.kinoxp.dto.UpcomingShowingDTO;
+import ek.kinoxp.model.Show;
+import ek.kinoxp.repository.MovieRepository;
+import ek.kinoxp.repository.ShowRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
     this.showRepository = showRepository;
     this.movieRepository = movieRepository;
 
-}public List<UpcomingShowingDTO> getUpcoming() {
+}public List<UpcomingShowingDTO> getUpcomingShows() {
         // 1. Hent alle shows, der starter efter nu
         var shows = showRepository.findByStartTimeAfterOrderByStartTimeAsc(LocalDateTime.now());
 
@@ -32,7 +32,7 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
         for (Show s : shows) {
             // 4. Opret en DTO ud fra show + relationer (Movie + Theater)
             UpcomingShowingDTO dto = new UpcomingShowingDTO(
-                    s.getShow_id(),
+                    s.getShowId(),
                     s.getMovie().getMovieId(),
                     s.getMovie().getTitle(),
                     s.getMovie().getCategory(),
@@ -51,17 +51,16 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
     }
 
 public MovieDetailDTO getMovieDetails(Long movieId) {
-    var m = movieRepository.findById(movieId).orElseThrow(); //throw =hvis film ingen id har smid exception
-// Movie m = movieRepository.findById(movieId).orElseThrow();
+    var movie = movieRepository.findById(movieId).orElseThrow(); // Hvis filmen intet id har smid da exception
     return new MovieDetailDTO(
-            m.getMovieId(),
-            m.getTitle(),
-            m.getCategory(),
-            m.getAgeLimit(),
-            m.getDurationMin(),
-            m.getReleaseYear(),
-            m.getActors(),
-            m.getDescription(),
-            m.getLanguage()
+            movie.getMovieId(),
+            movie.getTitle(),
+            movie.getCategory(),
+            movie.getAgeLimit(),
+            movie.getDurationMin(),
+            movie.getReleaseYear(),
+            movie.getActors(),
+            movie.getDescription(),
+            movie.getLanguage()
     );
 }}
