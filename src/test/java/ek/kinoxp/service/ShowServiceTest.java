@@ -1,4 +1,4 @@
-// src/test/java/ek/kinoxp/service/ShowServiceTest.java
+// src/test/java/ek/kinoxp/service/ShowServiceTest.java.
 package ek.kinoxp.service;
 
 import ek.kinoxp.dto.CreateShowingRequestDTO;
