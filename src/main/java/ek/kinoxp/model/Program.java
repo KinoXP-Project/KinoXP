@@ -43,4 +43,13 @@ public class Program
     public LocalDate getEndDate() {return endDate;}
     public void setEndDate(LocalDate endDate) {this.endDate = endDate;}
 
+    public void addShow(Show show) {
+        shows.add(show);
+        show.setProgram(this);
+    }
+
+    public void removeShow(Show show) {
+        shows.remove(show);
+        show.setProgram(null);
+    }
 }
