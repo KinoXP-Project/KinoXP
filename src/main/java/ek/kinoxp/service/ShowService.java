@@ -1,5 +1,6 @@
 package ek.kinoxp.service;
 
+import ek.kinoxp.dto.SearchShowingDTO;
 import ek.kinoxp.dto.MovieDetailDTO;
 import ek.kinoxp.dto.UpcomingShowingDTO;
 import ek.kinoxp.model.Show;
@@ -8,7 +9,9 @@ import ek.kinoxp.repository.ShowRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,6 @@ public ShowService(ShowRepository showRepository, MovieRepository movieRepositor
             // 5. Tilføj DTO til listen
             result.add(dto);
         }
-
         // 6. Returner listen til controlleren (bliver sendt som JSON)
         return result;
     }
@@ -63,4 +65,20 @@ public MovieDetailDTO getMovieDetails(Long movieId) {
             movie.getDescription(),
             movie.getLanguage()
     );
-}}
+}
+
+    public List<SearchShowingDTO> searchShows(
+            String title,
+            String category,
+            LocalDate start,   // dato uden klokkeslæt
+            LocalDate end,
+            Integer theaterId,
+            String theaterName
+    ) {
+        LocalDateTime startAt = (start != null) ? start.atStartOfDay() : null;
+        LocalDateTime endAt   = (end   != null) ? end.atTime(LocalTime.MAX) : null;
+
+        return showRepository.searchShows(title, category, startAt, endAt, theaterId, theaterName);
+    }
+
+}
