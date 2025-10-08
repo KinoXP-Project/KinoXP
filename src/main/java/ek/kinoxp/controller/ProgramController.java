@@ -5,10 +5,9 @@ import ek.kinoxp.dto.MovieDetailDTO;
 import ek.kinoxp.dto.ShowingResponseDTO;
 import ek.kinoxp.dto.UpcomingShowingDTO;
 import ek.kinoxp.service.ShowService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.net.URI;
 import java.util.List;
