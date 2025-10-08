@@ -11,10 +11,11 @@ public class Program
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long program_id;
+    @Column(name = "program_id")
+    private Long programId;
 
-    @OneToMany(mappedBy = "program")
-    private List<Show> shows = new ArrayList<>(); //en arrayliste, da der er FLERE shows til ét program
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Show> shows = new ArrayList<>();
 
     private LocalDate startDate;
 
@@ -22,26 +23,25 @@ public class Program
 
     public Program(){}
 
-    public Program(Long program_id, List<Show> shows, LocalDate startDate, LocalDate endDate)
+    public Program(Long programId, LocalDate startDate, LocalDate endDate)
     {
-        this.program_id = program_id;
-        this.shows = shows;
+        this.programId = programId;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
     //Getters og setters
 
-    public Long getProgram_id() {return program_id;}
-    public void setProgram_id(Long  program_id) {this.program_id = program_id;}
-
-    public List<Show> getShows() {return shows;}
+    public Long getProgramId() {return programId;}
+    public void setProgramId(Long programId) {this.programId = programId;}
 
     public LocalDate getStartDate() {return startDate;}
     public void setStartDate(LocalDate startDate) {this.startDate = startDate;}
 
     public LocalDate getEndDate() {return endDate;}
     public void setEndDate(LocalDate endDate) {this.endDate = endDate;}
+
+    public List<Show> getShows() {return shows;}
 
     public void addShow(Show show) {
         shows.add(show);
@@ -52,4 +52,5 @@ public class Program
         shows.remove(show);
         show.setProgram(null);
     }
+
 }

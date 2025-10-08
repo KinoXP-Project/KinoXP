@@ -1,7 +1,9 @@
 package ek.kinoxp.controller;
 
 import ek.kinoxp.dto.SearchShowingDTO;
+import ek.kinoxp.dto.MovieDetailDTO;
 import ek.kinoxp.dto.ShowDTO;
+import ek.kinoxp.dto.UpcomingShowingDTO;
 import ek.kinoxp.service.ProgramService;
 import ek.kinoxp.service.ShowService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/program")
-@CrossOrigin(origins = "http://127.0.0.1:5500") // eller det portnummer du åbner index.html fra
+@CrossOrigin(origins = "http://127.0.0.1:5500") // eller det portnummer vi åbner index.html fra
 
 public class ProgramController
 {
@@ -30,10 +32,8 @@ public class ProgramController
 
     @GetMapping
     public List<ShowDTO> getProgram(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, //den fortæller Spring, at datoen i URL’en skal tolkes som ISO format (yyyy-MM-dd)
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
-    )
-    {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start, // Fortæller Spring, at datoen i URL’en skal tolkes som ISO format (yyyy-MM-dd)
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
         {
             LocalDate s = (start != null) ? start : LocalDate.now().withDayOfMonth(1);
             LocalDate e = (end != null) ? end : s.withDayOfMonth(s.lengthOfMonth());
@@ -41,10 +41,20 @@ public class ProgramController
         }
     }
 
-    //Customer error handler
+    @GetMapping("/upcoming")
+    public List<UpcomingShowingDTO> getUpcoming() {
+        return showService.getUpcomingShows();
+    }
+
+    @GetMapping("/movies/{id}")
+    public MovieDetailDTO getMovie(@PathVariable Long id) {
+        return showService.getMovieDetails(id);
+    }
+
+    //Custom error handler
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleBadRequest(IllegalArgumentException ex) { //henter message fra ServiceLaget og returnere
+    public String handleBadRequest(IllegalArgumentException ex) { // Henter message fra Servicelaget og returnerer
         return ex.getMessage();
     }
 

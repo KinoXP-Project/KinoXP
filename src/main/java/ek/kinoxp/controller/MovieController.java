@@ -12,17 +12,15 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController
 {
-    private MovieRepository MovieRepository;
+    private MovieRepository movieRepository;
 
-    public MovieController(MovieRepository repo)
+    public MovieController(MovieRepository movieRepository)
     {
-        this.MovieRepository = repo;
+        this.movieRepository = movieRepository;
     }
 
-    //Get
     @GetMapping
     public List<Movie> getAllMovies(){
-        return MovieRepository.findAll();
+        return movieRepository.findAll();
     }
-
 }

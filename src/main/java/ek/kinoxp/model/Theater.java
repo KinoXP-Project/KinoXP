@@ -8,6 +8,7 @@ public class Theater
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "theater_id")
     private Long theaterId;
 
     private int rowCount;

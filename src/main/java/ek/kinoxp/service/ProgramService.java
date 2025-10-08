@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ProgramService
 {
-    private final ShowRepository showRepository;
+    private ShowRepository showRepository;
 
     public ProgramService(ShowRepository showRepository){
         this.showRepository = showRepository;
@@ -20,11 +20,11 @@ public class ProgramService
 
     public List<ShowDTO> getProgram(LocalDate start, LocalDate end){
         if (end.isBefore(start)){
-            throw new IllegalArgumentException("end must be on/after start");
+            throw new IllegalArgumentException("End must after start");
         }
-        LocalDate max = LocalDate.now().plusMonths(3);
+        LocalDate maxMonths = LocalDate.now().plusMonths(3);
 
-        if (start.isAfter(max) || end.isAfter(max)) {
+        if (start.isAfter(maxMonths) || end.isAfter(maxMonths)) {
             throw new IllegalArgumentException("Program can only be shown up to 3 months ahead");
         }
 
@@ -32,6 +32,7 @@ public class ProgramService
                 start.atStartOfDay(),
                 end.atTime(LocalTime.MAX)
         );
-        return shows.stream().map(ShowDTO::from).toList(); //genvej til at pege på en metode i stedet for selv at skrive lambda-udtrykket.
+        return shows.stream().map(ShowDTO::from).toList(); // Genvej til at pege på en metode i stedet for selv at skrive lambda-udtrykket.
     }
+
 }
