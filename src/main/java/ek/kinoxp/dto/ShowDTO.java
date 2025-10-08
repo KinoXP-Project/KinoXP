@@ -16,10 +16,10 @@ public record ShowDTO(Long id,
     public static ShowDTO from(Show s) {
         return new ShowDTO(
                 s.getShowId(),
-                s.getProgram().getMovie().getTitle(),
-                s.getProgram().getMovie().getCategory(),
-                s.getProgram().getMovie().getAgeLimit(),
-                s.getProgram().getTheater().getName(),
+                s.getMovie().getTitle(),
+                s.getMovie().getCategory(),
+                s.getMovie().getAgeLimit(),
+                s.getTheater().getName(),
                 s.getStartTime(),
                 s.getEndTime()
         );
