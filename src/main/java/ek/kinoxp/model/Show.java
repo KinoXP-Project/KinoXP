@@ -1,4 +1,4 @@
-package ek.kinoxp.Model;
+package ek.kinoxp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ public class Show
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int show_id;
+    private Long showId;
 
     @ManyToOne(optional = false) //Én film → mange shows
     @JoinColumn(name = "movie_id") // fremmednøgle i shows-tabellen
@@ -38,8 +38,8 @@ public class Show
 
     //Getters og setters
 
-    public void setShow_id(int show_id) {this.show_id = show_id;}
-    public int getShow_id() {return show_id;}
+    public void setShowId(Long showId) {this.showId = showId;}
+    public Long getShowId() {return showId;}
 
     public Movie getMovie() {return movie;}
     public void setMovie(Movie movie) {this.movie = movie;}
@@ -60,7 +60,7 @@ public class Show
     // Metode til at udregne filmens runtime, så vi kan udregne cirka sluttid
     public void calculateEndTime() {
         if (movie != null && startTime != null) {
-            this.endTime = startTime.plusMinutes(movie.getRun_time());
+            this.endTime = startTime.plusMinutes(movie.getRunTime());
         }
     }
 

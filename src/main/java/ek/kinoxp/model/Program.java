@@ -1,4 +1,4 @@
-package ek.kinoxp.Model;
+package ek.kinoxp.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ public class Program
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int program_id;
+    private Long program_id;
 
     @ManyToOne(optional = false) //Én film → mange shows
     @JoinColumn(name = "movie_id") // fremmednøgle i shows-tabellen
@@ -30,7 +30,7 @@ public class Program
 
     public Program(){}
 
-    public Program(int program_id, Movie movie, Theater theater, List<Show> shows, LocalDate startDate, LocalDate endDate)
+    public Program(Long program_id, Movie movie, Theater theater, List<Show> shows, LocalDate startDate, LocalDate endDate)
     {
         this.program_id = program_id;
         this.movie = movie;
@@ -42,8 +42,8 @@ public class Program
 
     //Getters og setters
 
-    public int getProgram_id() {return program_id;}
-    public void setProgram_id(int program_id) {this.program_id = program_id;}
+    public Long getProgram_id() {return program_id;}
+    public void setProgram_id(Long  program_id) {this.program_id = program_id;}
 
     public Movie getMovie() {return movie;}
     public void setMovie(Movie movie) {this.movie = movie;}

@@ -1,10 +1,10 @@
-package ek.kinoxp.Service;
+package ek.kinoxp.service;
 
-import ek.kinoxp.Model.Movie;
-import ek.kinoxp.Model.Program;
-import ek.kinoxp.Model.Show;
-import ek.kinoxp.Model.Theater;
-import ek.kinoxp.Repository.ShowRepository;
+import ek.kinoxp.model.Movie;
+import ek.kinoxp.model.Program;
+import ek.kinoxp.model.Show;
+import ek.kinoxp.model.Theater;
+import ek.kinoxp.repository.ShowRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -38,7 +38,7 @@ class ProgramServiceTest {
     void getProgram_ReturnsShowsWithin3Months() {
         // Arrange - Vi opsætter testdata og “faker” repository-svaret med Mockito.
         // Opret et show indenfor 3 måneder
-        Movie movie = new Movie(1, "Inception", "Sci-Fi", 148, 13, 2010, "English");
+        Movie movie = new Movie(1L, "Inception", "Sci-Fi", 148, 13, 2010, "English");
 
 
         //No args eller setters, idet at vi ikke vil have at den skal tage imod parametre

@@ -1,8 +1,8 @@
-package ek.kinoxp.Service;
+package ek.kinoxp.service;
 
-import ek.kinoxp.DTO.ShowDTO;
-import ek.kinoxp.Model.Show;
-import ek.kinoxp.Repository.ShowRepository;
+import ek.kinoxp.dto.ShowDTO;
+import ek.kinoxp.model.Show;
+import ek.kinoxp.repository.ShowRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,10 +12,10 @@ import java.util.List;
 @Service
 public class ProgramService
 {
-    private ShowRepository showRepo;
+    private final ShowRepository showRepository;
 
-    public ProgramService(ShowRepository showRepo){
-        this.showRepo = showRepo;
+    public ProgramService(ShowRepository showRepository){
+        this.showRepository = showRepository;
     }
 
     public List<ShowDTO> getProgram(LocalDate start, LocalDate end){
@@ -28,12 +28,10 @@ public class ProgramService
             throw new IllegalArgumentException("Program can only be shown up to 3 months ahead");
         }
 
-        List<Show> shows = showRepo.findByStartTimeBetween(
+        List<Show> shows = showRepository.findByStartTimeBetween(
                 start.atStartOfDay(),
                 end.atTime(LocalTime.MAX)
         );
         return shows.stream().map(ShowDTO::from).toList(); //genvej til at pege på en metode i stedet for selv at skrive lambda-udtrykket.
     }
-
-
 }

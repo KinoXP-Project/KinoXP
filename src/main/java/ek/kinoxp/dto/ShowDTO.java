@@ -1,10 +1,10 @@
-package ek.kinoxp.DTO;
+package ek.kinoxp.dto;
 
-import ek.kinoxp.Model.Show;
+import ek.kinoxp.model.Show;
 
 import java.time.LocalDateTime;
 
-public record ShowDTO(int id,
+public record ShowDTO(Long id,
                       String movieTitle,
                       String category,
                       Integer ageLimit,
@@ -15,10 +15,10 @@ public record ShowDTO(int id,
 {
     public static ShowDTO from(Show s) {
         return new ShowDTO(
-                s.getShow_id(),
+                s.getShowId(),
                 s.getProgram().getMovie().getTitle(),
                 s.getProgram().getMovie().getCategory(),
-                s.getProgram().getMovie().getAge_limit(),
+                s.getProgram().getMovie().getAgeLimit(),
                 s.getProgram().getTheater().getName(),
                 s.getStartTime(),
                 s.getEndTime()
