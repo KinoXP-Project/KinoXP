@@ -2,15 +2,18 @@
 package ek.kinoxp.config;
 
 import ek.kinoxp.model.Movie;
+import ek.kinoxp.model.Program;
 import ek.kinoxp.model.Show;
 import ek.kinoxp.model.Theater;
 import ek.kinoxp.repository.MovieRepository;
+import ek.kinoxp.repository.ProgramRepository;
 import ek.kinoxp.repository.ShowRepository;
 import ek.kinoxp.repository.TheaterRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -19,12 +22,12 @@ public class DevDataSeeder implements CommandLineRunner {
 
     private final TheaterRepository theaterRepository;
     private final MovieRepository movieRepository;
-    private final ShowRepository showRepository;
+    private final ProgramRepository programRepository;
 
-    public DevDataSeeder(TheaterRepository theaterRepository, MovieRepository movieRepository, ShowRepository showRepository) {
+    public DevDataSeeder(TheaterRepository theaterRepository, MovieRepository movieRepository, ProgramRepository programRepository) {
         this.theaterRepository = theaterRepository;
         this.movieRepository = movieRepository;
-        this.showRepository = showRepository;
+        this.programRepository = programRepository;
     }
 
     @Override
@@ -54,7 +57,13 @@ public class DevDataSeeder implements CommandLineRunner {
             s.setTheater(t1);
             s.setStartTime(LocalDateTime.now().plusDays(1));
 
-            showRepository.save(s);
+            Program program = new Program();
+            program.setStartDate(LocalDate.now());
+            program.setEndDate(LocalDate.now().plusMonths(3));
+
+            program.addShow(s);
+
+            programRepository.save(program);
         }
     }
 }
