@@ -25,10 +25,10 @@ public class Theater {
 
 
     public Theater(Long theaterId, int rowCount, int seatCount, String name) {
-    this.theaterId = theaterId;
-    this.rowCount = rowCount;
-    this.seatCount = seatCount;
-    this.name = name;
+        this.theaterId = theaterId;
+        this.rowCount = rowCount;
+        this.seatCount = seatCount;
+        this.name = name;
     }
 
     public Theater() {
@@ -66,4 +66,4 @@ public class Theater {
     public void setName(String name) {
         this.name = name;
     }
-    }
+}

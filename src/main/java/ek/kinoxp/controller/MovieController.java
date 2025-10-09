@@ -41,5 +41,4 @@ public class MovieController {
         return ResponseEntity.status(201).body(saved);
     }
 
-  }
-
+}
