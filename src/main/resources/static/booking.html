@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>KinoXP – Employee Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/booking.css" />
+</head>
+<body>
+<main class="container">
+    <h1>Employee Booking</h1>
+
+    <form id="bookingForm" novalidate>
+        <section class="grid">
+            <label class="field">
+                <span>Customer name</span>
+                <input id="name" name="name" type="text" required minlength="2" placeholder="Customer name" />
+                <small class="hint">Required (min. 2 chars)</small>
+            </label>
+
+            <label class="field">
+                <span>Customer email</span>
+                <input id="email" name="email" type="email" required placeholder="customer@example.com" />
+                <small id="emailErr" class="err" hidden>Please enter a valid email</small>
+            </label>
+
+            <label class="field">
+                <span>Showing</span>
+                <select id="showId" name="showId" required>
+                    <option value="" disabled selected>Select showing…</option>
+                </select>
+                <small class="hint">Required</small>
+            </label>
+        </section>
+
+        <section>
+            <h2>Seat picker</h2>
+
+            <div id="seatMeta" style="margin:.25rem 0 .5rem;color:#333;"></div>
+
+            <div id="legend">
+                <span class="legend-item"><span class="box free"></span> Free</span>
+                <span class="legend-item"><span class="box taken"></span> Taken</span>
+                <span class="legend-item"><span class="box selected"></span> Selected</span>
+                <span class="legend-item"><span class="box conflict"></span> Conflict</span>
+            </div>
+            <div id="seatGrid" class="seats">Select a showing to load seats…</div>
+        </section>
+
+        <div class="actions">
+            <button id="bookBtn" type="submit" disabled>Book selected seats</button>
+            <button id="clearBtn" type="button" class="secondary">Clear selection</button>
+        </div>
+
+        <output id="status" role="status" aria-live="polite"></output>
+        <pre id="confirmation" hidden></pre>
+    </form>
+</main>
+
+<script src="/booking.js"></script>
+</body>
+</html>
